@@ -1,14 +1,12 @@
 // 生成 Python 脚本 - 处理标准MCP工具调用格式
 import fs from "fs";
 import path from "path";
+import {connectToPlaywrightMcp} from "./playwright-script-gen-mcp";
 
 const config = require("./config/service-config");
 const {log, generatePythonScript} = require("./modules/script-generator");
 
-let currentPageUrl = '';
-const testStepsFilePath = path.join(__dirname, 'testSteps.txt');
-
-function loadTestSteps() {
+const loadTestSteps = () => {
   let list = []
   if (fs.existsSync(testStepsFilePath)) {
     try {
@@ -25,18 +23,8 @@ function loadTestSteps() {
   }
 
   return list
-}
+};
 
-const outputDir = config.scriptGeneration.outputDir;
-const fileName = `${outputDir}/${config.scriptGeneration.defaultFileName}-${Date.now()}.py`;
 
-log(`playwright_script_generator  testSteps---> ${JSON.stringify(testSteps)}`)
-
-// 确保输出目录存在
-if (!fs.existsSync(outputDir)) {
-  fs.mkdirSync(outputDir, {recursive: true});
-}
-
-const generationResult = generatePythonScript('', loadTestSteps(), fileName);
-
-console.log('generationResult------>',generationResult)
+const testSteps = loadTestSteps()
+ connectToPlaywrightMcp()

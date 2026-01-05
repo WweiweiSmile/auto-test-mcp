@@ -1,6 +1,6 @@
 # Playwright Script Generation MCP 服务
 
-这是一个包装 playwright-mcp 并增加 Python 脚本生成功能的 MCP (Model Context Protocol) 服务。该服务不仅将请求转发到 playwright-mcp 服务执行浏览器自动化操作，还能记录操作步骤并生成对应的 Python 自动化测试脚本。
+这是一个包装 playwright-mcp 并增加 Node.js 脚本生成功能的 MCP (Model Context Protocol) 服务。该服务不仅将请求转发到 playwright-mcp 服务执行浏览器自动化操作，还能记录操作步骤并生成对应的 Node.js 自动化测试脚本。
 
 ## 功能特性
 
@@ -10,8 +10,9 @@
 
 ### 2. Playwright 操作记录与脚本生成
 - 记录所有执行的 Playwright 操作（点击、填写、等待、截图等）
-- 生成完整的 Python 自动化测试脚本
-- 脚本以 `test-时间戳.py` 格式保存
+- 生成完整的 Node.js 自动化测试脚本，通过 MCP 协议调用 Playwright 服务
+- 脚本以 `test-时间戳.js` 格式保存
+- 如果某个步骤失败，整个自动化测试会失败
 
 ### 3. 服务代理与转发
 - 将非本地处理的请求转发到 playwright-mcp 服务
@@ -44,7 +45,7 @@
 
 - `get_test_steps`: 获取当前记录的测试步骤
 - `clear_test_steps`: 清空测试步骤
-- `generate_test_script`: 生成完整的Python测试脚本
+- `generate_test_script`: 生成完整的Node.js测试脚本
 
 ## 配置文件
 

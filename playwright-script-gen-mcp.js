@@ -182,7 +182,7 @@ function performHealthCheck() {
 }
 
 // 连接到 playwright-mcp 服务
-function connectToPlaywrightMcp() {
+export function connectToPlaywrightMcp() {
   log('尝试连接到 Playwright MCP 服务...');
 
   // 启动 playwright-mcp 子进程
@@ -408,9 +408,9 @@ async function handleRequest(request) {
     const {method, params, id} = parsed;
 
     if (method === 'tools/call' && params && params.name === 'playwright_script_generator') {
-      // 生成 Python 脚本 - 处理标准MCP工具调用格式
+      // 生成 Node.js 脚本 - 处理标准MCP工具调用格式
       const outputDir = config.scriptGeneration.outputDir;
-      const fileName = `${outputDir}/${config.scriptGeneration.defaultFileName}-${Date.now()}.py`;
+      const fileName = `${outputDir}/${config.scriptGeneration.defaultFileName}-${Date.now()}.js`;  // 更改为.js扩展名
 
       log(`playwright_script_generator  testSteps---> ${JSON.stringify(testSteps)}`)
 
@@ -419,7 +419,7 @@ async function handleRequest(request) {
         fs.mkdirSync(outputDir, {recursive: true});
       }
 
-      const generationResult = generatePythonScript(currentPageUrl, loadTestSteps(), fileName);
+      const generationResult = generatePythonScript(currentPageUrl, loadTestSteps(), fileName);  // 使用相同的函数（现在生成Node.js脚本）
 
       // 读取生成的脚本内容
       let scriptContent = [{

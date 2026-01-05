@@ -36,15 +36,16 @@ Playwright MCP 的功能与 Python 脚本生成能力相结合，提供额外的
 - 支持多种操作类型：click, fill, navigate, wait, screenshot, text, get_elements, snapshot, press, hover
 - 通过 `extractActionFromMethod` 函数从 MCP 方法调用中提取操作信息
 - 自动记录所有以 `browser/`, `page/`, `element/` 开头的操作到 `.testSteps` 文件，即使它们没有被显式支持
-- 根据记录的操作步骤生成 Python 自动化测试脚本
+- 根据记录的操作步骤生成 Node.js 自动化测试脚本，通过 MCP 协议调用 Playwright 服务
 - 脚本生成到指定目录，默认为 `./generated-scripts`
 - 脚本生成成功后自动清除 `.testSteps` 文件中的历史记录
+- 如果某个步骤失败，整个自动化测试会失败
 
 ## 工具定义
 
 ### playwright_script_generator 工具
 
-该工具用于生成 Python 脚本，具体定义如下：
+该工具用于生成 Node.js 脚本，具体定义如下：
 
 ```javascript
 {
@@ -118,7 +119,7 @@ Playwright MCP 的功能与 Python 脚本生成能力相结合，提供额外的
    开头），记录操作到 [testSteps](file:///E:/Codes/agent/playwright-script-gen-mcp.js#L18-L18) 数组并保存到 `.testSteps` 文件
 9. 将响应返回给客户端
 
-### Python 脚本生成流程
+### Node.js 脚本生成流程
 
 1. 服务初始化时创建全局变量 [testSteps](file:///E:/Codes/agent/playwright-script-gen-mcp.js#L18-L18) 数组，用于存储测试步骤
 2. 当接收到 MCP 方法请求时（如 `browser/navigate`, `page/click`, `page/fill`
@@ -126,9 +127,10 @@ Playwright MCP 的功能与 Python 脚本生成能力相结合，提供额外的
    函数提取操作信息并添加到 [testSteps](file:///E:/Codes/agent/playwright-script-gen-mcp.js#L18-L18) 数组
 3. 当接收到 `playwright_script_generator`
    工具请求时，使用 [generatePythonScript](file:///E:/Codes/agent/modules/script-generator.js#L94-L125) 函数生成包含所有记录步骤的
-   Python 脚本
-4. 生成包含所有记录步骤的 Python 脚本文件
+   Node.js 脚本，该脚本通过 MCP 协议调用 Playwright 服务
+4. 生成包含所有记录步骤的 Node.js 脚本文件
 5. 脚本文件保存到配置的输出目录中
+6. 如果某个步骤失败，整个自动化测试会失败
 
 ### 支持的操作类型
 
@@ -148,7 +150,7 @@ Playwright MCP 的功能与 Python 脚本生成能力相结合，提供额外的
 - **tools/list 方法**: 在响应的 `result.tools` 中合并工具
 - **playwright_script_generator 方法**:
   处理脚本生成请求，验证操作参数，从 `.testSteps` 文件加载操作记录，生成
-  Python 脚本并返回结果，生成后清除 `.testSteps` 文件中的历史记录
+  Node.js 脚本并返回结果，生成后清除 `.testSteps` 文件中的历史记录
 - **其他方法**: 直接返回 Playwright MCP 的原始响应，但会检查是否是浏览器操作（如 `browser/`, `page/`, `element/`
   开头的方法）并记录到 [testSteps](file:///E:/Codes/agent/playwright-script-gen-mcp.js#L18-L18) 数组并保存到 `.testSteps` 文件
 
@@ -172,7 +174,7 @@ Playwright MCP 的功能与 Python 脚本生成能力相结合，提供额外的
 ## 使用场景
 
 1. **自动化测试**: 提供浏览器自动化功能
-2. **脚本生成**: 根据操作生成 Python 自动化脚本
+2. **脚本生成**: 根据操作生成 Node.js 自动化脚本，通过 MCP 协议调用 Playwright 服务
 3. **工具聚合**: 将多种自动化工具统一到一个接口
 4. **服务代理**: 为 Playwright MCP 提供额外的稳定性和功能扩展
 5. **测试用例录制**: 记录操作步骤并生成可重复执行的测试脚本
