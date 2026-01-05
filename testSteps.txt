@@ -1,0 +1,87 @@
+[
+  {
+    "name": "browser_navigate",
+    "arguments": {
+      "url": "https://www.baidu.com"
+    }
+  },
+  {
+    "name": "browser_fill_form",
+    "arguments": {
+      "fields": [
+        {
+          "name": "搜索框",
+          "ref": "e38",
+          "type": "textbox",
+          "value": "ai"
+        }
+      ]
+    }
+  },
+  {
+    "name": "browser_click",
+    "arguments": {
+      "element": "百度一下按钮",
+      "ref": "e76"
+    }
+  },
+  {
+    "name": "browser_navigate",
+    "arguments": {
+      "url": "https://www.baidu.com"
+    }
+  },
+  {
+    "name": "browser_type",
+    "arguments": {
+      "element": "搜索框",
+      "ref": "e38",
+      "text": "ai"
+    }
+  },
+  {
+    "name": "browser_click",
+    "arguments": {
+      "element": "百度一下按钮",
+      "ref": "e76"
+    }
+  },
+  {
+    "name": "browser_close",
+    "arguments": {
+      "random_string": "close-browser"
+    }
+  },
+  {
+    "name": "browser_navigate",
+    "arguments": {
+      "url": "https://www.baidu.com"
+    }
+  },
+  {
+    "name": "browser_fill_form",
+    "arguments": {
+      "fields": [
+        {
+          "name": "搜索框",
+          "ref": "e38",
+          "type": "textbox",
+          "value": "ai"
+        }
+      ]
+    }
+  },
+  {
+    "name": "browser_click",
+    "arguments": {
+      "element": "百度一下按钮",
+      "ref": "e76"
+    }
+  },
+  {
+    "name": "browser_close",
+    "arguments": {
+      "random_string": "close-browser"
+    }
+  }
+]

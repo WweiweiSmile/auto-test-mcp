@@ -1,0 +1,20 @@
+{
+  "name": "playwright-script-gen-mcp",
+  "version": "1.0.0",
+  "description": "一个包装 playwright-mcp 并增加 Python 脚本生成功能的 MCP 服务",
+  "main": "playwright-script-gen-mcp.js",
+  "scripts": {
+    "start": "node playwright-script-gen-mcp.js",
+    "dev": "node --inspect playwright-script-gen-mcp.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": ["mcp", "playwright", "automation", "testing", "script-generation"],
+  "author": "AI Agent",
+  "license": "ISC",
+  "dependencies": {
+    "playwright": "^1.40.0"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}
