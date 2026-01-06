@@ -14,7 +14,16 @@ class Logger {
 
 // 脚本模板生成器类
 class ScriptTemplate {
-  static initializeTestScript(url, browser = 'msedge') {
+  static initializeTestScript(url, browser = 'msedge', useUserDataDir = false) {
+    // 根据配置决定是否使用本地用户数据目录
+    let spawnArgs = ["@playwright/mcp@latest", "--browser", "" + browser + ""];
+    if (useUserDataDir) {
+      const userDataDir = config.service.userDataDir || '';
+      if (userDataDir) {
+        spawnArgs.push("--user-data-dir", userDataDir);
+      }
+    }
+    
     const scriptLines = [
       "// 生成的 Node.js 自动化测试脚本 - 通过 MCP 协议调用 Playwright 服务",
       "const { spawn } = require('child_process');",
@@ -25,7 +34,7 @@ class ScriptTemplate {
       "",
       "  // 启动 Playwright MCP 子进程",
       "  const npxCmd = process.platform === 'win32' ? 'npx.cmd' : 'npx';",
-      "  const mcpProcess = spawn(npxCmd, ['@playwright/mcp@latest', '--browser', '" + browser + "'], {",
+      "  const mcpProcess = spawn(npxCmd, " + JSON.stringify(spawnArgs) + ", {",
       "    stdio: ['pipe', 'pipe', 'pipe'],",
       "    shell: true",
       "  });",
@@ -195,8 +204,9 @@ class ActionHandler {
 class ScriptGenerator {
   // 生成 Node.js 测试脚本文件（保留原函数名但生成Node.js脚本）
   static generateNodeScript(url, actions, filename) {
-    // 从配置文件获取浏览器类型
+    // 从配置文件获取浏览器类型和是否使用本地数据目录
     const browser = config.service.browser;
+    const useUserDataDir = config.service.useUserDataDir;
 
     if (!filename || typeof filename !== 'string') {
       filename = config.scriptGeneration.defaultFileName + '-' + Date.now() + '.js';  // 改为.js扩展名
@@ -206,7 +216,7 @@ class ScriptGenerator {
       actions = [];
     }
 
-    let scriptLines = ScriptTemplate.initializeTestScript(url, browser);
+    let scriptLines = ScriptTemplate.initializeTestScript(url, browser, useUserDataDir);
 
     // 为每个操作添加对应的 MCP 调用代码
     actions.forEach(action => {

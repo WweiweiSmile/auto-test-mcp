@@ -20,7 +20,17 @@ class PlaywrightServiceManager {
 
     // 启动 playwright-mcp 子进程
     const npxCmd = process.platform === 'win32' ? 'npx.cmd' : 'npx';
-    this.mockPlaywrightMcpInstance = spawn(npxCmd, ['@playwright/mcp@latest', '--browser', this.config.service.browser], {
+    const args = ['@playwright/mcp@latest', '--browser', this.config.service.browser];
+    
+    // 如果配置为使用本地数据目录，则添加 --user-data-dir 参数
+    if (this.config.service.useUserDataDir) {
+      const userDataDir = this.config.service.userDataDir || '';
+      if (userDataDir) {
+        args.push('--user-data-dir', userDataDir);
+      }
+    }
+    
+    this.mockPlaywrightMcpInstance = spawn(npxCmd, args, {
       stdio: ['pipe', 'pipe', 'pipe'], 
       shell: true
     });

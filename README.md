@@ -104,3 +104,20 @@ npm start
 ## 日志
 
 服务会将日志写入 `playwright-script-gen-mcp.log` 文件，包含时间戳和详细的操作信息。
+
+## 使用浏览器本地数据
+
+如果需要让Playwright使用浏览器的本地数据（如用户配置文件、缓存、登录信息等），可以在配置文件中设置以下参数：
+
+```javascript
+module.exports = {
+  service: {
+    // ... 其他配置 ...
+    useUserDataDir: true,           // 启用本地数据目录
+    userDataDir: 'C:\\Users\\YourUsername\\AppData\\Local\\Microsoft\\Edge\\User Data',  // 浏览器用户数据目录路径
+    // ...
+  }
+};
+```
+
+启用此功能后，Playwright将使用指定的用户数据目录，这样可以保留浏览器的登录状态、书签、扩展等个性化设置。

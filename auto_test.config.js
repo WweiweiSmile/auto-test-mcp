@@ -7,6 +7,8 @@ module.exports = {
     version: '1.0.0',
     protocolVersion: '2025-11-25',
     browser: 'msedge', // 可选: msedge, chrome, firefox, webkit
+    useUserDataDir: true, // 是否使用浏览器本地数据目录
+    userDataDir: '', // 浏览器用户数据目录路径，当 useUserDataDir 为 true 时生效
     timeout: 30000, // 30秒超时
   },
 
@@ -39,7 +41,7 @@ module.exports = {
       description: '根据记录的操作，生成playwright mcp的操作回放脚本',
     }
   },
-  
+
   // 其他配置文件路径
   filePaths: {
     testSteps: 'E:\\Codes\\auto-test-mcp\\testSteps.txt',
