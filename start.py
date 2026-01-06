@@ -1,156 +1,9 @@
-import time
 import urllib
 
 import json5
 from qwen_agent.agents import Assistant
 from qwen_agent.gui import WebUI
 from qwen_agent.tools.base import BaseTool, register_tool
-
-
-# 自定义 Playwright 测试工具类
-@register_tool('playwright_test_tool')
-class PlaywrightTestTool(BaseTool):
-    """
-    Playwright 自动化测试工具，生成自动化测试的py脚本
-    """
-
-    # `description` 用于告诉智能体该工具的功能。
-    description = 'Playwright 自动化测试生成工具，生成并保存自动化测试脚本到 test-时间戳.py 文件中。'
-    # `parameters` 告诉智能体该工具有哪些输入参数。
-    parameters = [
-        {
-            "name": "url",
-            "type": "string",
-            "description": "要访问的网页 URL"
-        },
-        {
-            "name": "actions",
-            "type": "array",
-            "description": "要执行的操作列表，每个操作包含 type、selector 和 value 字段",
-            "items": {
-                "type": "object",
-                "properties": {
-                    "type": {
-                        "type": "string",
-                        "enum": ["click", "fill", "wait", "screenshot", "text", "get_elements", "snapshot"],
-                        "description": "操作类型：click(点击)、fill(填写)、wait(等待)、screenshot(截图)、text(获取文本)、get_elements(获取页面元素)、snapshot(获取页面快照)"
-                    },
-                    "selector": {
-                        "type": "string",
-                        "description": "CSS 选择器或 XPath，用于定位元素（在 click、fill、text、get_elements 操作中使用）"
-                    },
-                    "value": {
-                        "type": "string",
-                        "description": "操作的值，如填入的文本、等待时间(毫秒)或截图保存路径"
-                    }
-                },
-                "required": ["type"]
-            }
-        }
-    ]
-
-    def __init__(self, tool_cfg=None):
-        super().__init__()
-        if tool_cfg:
-            # 在这里处理 tool_cfg 参数
-            pass
-
-    def call(self, params: str, **kwargs) -> str:
-        """
-        生成浏览器自动化测试脚本
-        :param params: 包含目标 URL 和操作列表的 JSON 字符串
-        :return: 测试结果和页面元素信息
-        """
-        data = json5.loads(params)
-        url = data.get('url', '')
-        actions = data.get('actions', [])
-
-        # 生成测试脚本
-        test_scripts = []
-        test_scripts.append("# 生成的 Playwright 自动化测试脚本\n")
-        test_scripts.append("from playwright.sync_api import sync_playwright\n")
-        test_scripts.append("\n")
-        test_scripts.append("def run_automation():\n")
-        test_scripts.append(f"    with sync_playwright() as p:\n")
-        test_scripts.append(f"        browser = p.chromium.launch(headless=False)\n")
-        test_scripts.append(f"        page = browser.new_page()\n")
-        test_scripts.append(f"        page.goto('{url}')\n")
-
-        # 初始化结果
-        results = {
-            "status": "success",
-            "message": f"已成功执行 {len(actions)} 个自动化步骤",
-            "test_steps": [],
-            "page_elements": [],
-            "screenshots": [],
-            "generated_script_file": ""
-        }
-
-        # 记录操作步骤
-        results["test_steps"].append(f"访问 URL: {url}")
-
-        # 生成脚本
-        for i, action in enumerate(actions):
-            action_type = action.get('type')
-            selector = action.get('selector', '')
-            value = action.get('value', '')
-
-            step_description = ""
-
-            if action_type == 'click':
-                test_scripts.append(f"        page.click('{selector}')\n")
-                step_description = f"第 {i + 1} 步: 点击元素 '{selector}'"
-
-            elif action_type == 'fill':
-                test_scripts.append(f"        page.fill('{selector}', '{value}')\n")
-                step_description = f"第 {i + 1} 步: 在 '{selector}' 填入 '{value}'"
-
-            elif action_type == 'wait':
-                test_scripts.append(f"        page.wait_for_timeout({value})\n")
-                step_description = f"第 {i + 1} 步: 等待 {value} 毫秒"
-
-            elif action_type == 'screenshot':
-                test_scripts.append(f"        page.screenshot(path='{value}')\n")
-                step_description = f"第 {i + 1} 步: 截图保存至 '{value}'"
-                results["screenshots"].append(value)
-
-            elif action_type == 'text':
-                test_scripts.append(f"        text = page.locator('{selector}').text_content()\n")
-                test_scripts.append(f"        print(f'元素文本: {{text}}')\n")
-                step_description = f"第 {i + 1} 步: 获取元素 '{selector}' 的文本"
-
-            elif action_type == 'get_elements':
-                # 使用 JS 获取页面元素信息
-                test_scripts.append(f"        elements = page.query_selector_all('{selector}')\n")
-                test_scripts.append(f"        print(f'找到 {{len(elements)}} 个元素: {{elements}}')\n")
-                step_description = f"第 {i + 1} 步: 获取页面元素 '{selector}' 的信息"
-
-            elif action_type == 'snapshot':
-                # 获取页面快照
-                test_scripts.append(f"        content = page.content()\n")
-                test_scripts.append(f"        print(f'页面快照: {{content[:200]}}...')\n")
-                step_description = f"第 {i + 1} 步: 获取页面快照"
-
-            else:
-                step_description = f"第 {i + 1} 步: 不支持的操作类型 '{action_type}'"
-                results["status"] = "error"
-
-            results["test_steps"].append(step_description)
-
-        test_scripts.append(f"        browser.close()\n")
-        test_scripts.append("\n")
-        test_scripts.append("if __name__ == '__main__':\n")
-        test_scripts.append("    run_automation()\n")
-
-        # 生成测试脚本文件
-        timestamp = int(time.time())
-        filename = f"test-{timestamp}.py"
-        with open(filename, 'w', encoding='utf-8') as f:
-            f.write("".join(test_scripts))
-
-        results["generated_script_file"] = filename
-
-        return json5.dumps(results, ensure_ascii=False)
 
 
 @register_tool('my_image_gen')
@@ -209,7 +62,7 @@ MCP_SERVERS_CONFIG = {
             "timeout": 30,
             "type": "stdio",
             "command": "node",
-            "args": ["playwright-script-gen-mcp.js"],
+            "args": ["E:\\Codes\\auto-test-mcp\\playwright-script-gen-mcp.js"],
             "env": {}
         },
     }

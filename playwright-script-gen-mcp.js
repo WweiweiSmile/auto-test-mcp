@@ -3,10 +3,9 @@
 // playwright-script-gen-mcp.js - 一个包装 playwright-mcp 并增加 Python 脚本生成功能的 MCP 服务
 
 const fs = require('fs');
-const path = require('path');
 const readline = require('readline');
-const { log, generatePythonScript } = require('./modules/script-generator');
-const { PlaywrightServiceManager } = require('./modules/service-manager');
+const {log, generateNodeScript} = require('./modules/script-generator');
+const {PlaywrightServiceManager} = require('./modules/service-manager');
 const TestStepsManager = require('./modules/test-steps-manager');
 const config = require('./config/service-config');
 
@@ -94,24 +93,24 @@ async function handleRequest(request) {
         fs.mkdirSync(outputDir, {recursive: true});
       }
 
-      const generationResult = generatePythonScript(
-        testStepsManager.getCurrentPageUrl(), 
-        testStepsManager.getTestSteps(), 
+      const generationResult = generateNodeScript(
+        testStepsManager.getCurrentPageUrl(),
+        testStepsManager.getTestSteps(),
         fileName
       );  // 使用相同的函数（现在生成Node.js脚本）
 
       // 读取生成的脚本内容
       let scriptContent = [{
-        "type": "text", 
+        "type": "text",
         "text": `脚本保存在文件地址：  ${fileName}`
       }];
 
       // 返回结果，包含 content 字段
       const clientResponse = {
-        jsonrpc: "2.0", 
-        id: id, 
+        jsonrpc: "2.0",
+        id: id,
         result: {
-          ...generationResult, 
+          ...generationResult,
           content: scriptContent
         }
       };
@@ -142,10 +141,10 @@ async function handleRequest(request) {
         log(`处理方法 ${method} 时出错: ${error.message}`);
 
         const errorResponse = {
-          jsonrpc: "2.0", 
-          id: id, 
+          jsonrpc: "2.0",
+          id: id,
           error: {
-            code: -32603, 
+            code: -32603,
             message: `处理请求时出错: ${error.message}`
           }
         };
@@ -173,7 +172,7 @@ async function handleRequest(request) {
           const mergedTools = [...playwrightTools, ...ourTools];
           // tools/list 方法或其他包含工具列表的响应格式
           const clientResponse = {
-            ...response, 
+            ...response,
             result: {
               tools: mergedTools
             }
@@ -198,10 +197,10 @@ async function handleRequest(request) {
     log(`处理请求时出错: ${error}`);
 
     const errorResponse = {
-      jsonrpc: "2.0", 
-      id: null, 
+      jsonrpc: "2.0",
+      id: null,
       error: {
-        code: -32700, 
+        code: -32700,
         message: "Parse error"
       }
     };
@@ -212,8 +211,8 @@ async function handleRequest(request) {
 
 // 创建接口来读取标准输入
 const rl = readline.createInterface({
-  input: process.stdin, 
-  output: process.stdout, 
+  input: process.stdin,
+  output: process.stdout,
   terminal: false
 });
 

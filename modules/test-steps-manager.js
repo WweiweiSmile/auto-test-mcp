@@ -1,11 +1,10 @@
 // test-steps-manager.js - 管理测试步骤的模块
 
 const fs = require('fs');
-const path = require('path');
-const { log } = require('./script-generator');
+const {log} = require('./script-generator');
 
 // 定义testSteps文件路径
-const testStepsFilePath = path.join(__dirname, '..', 'testSteps.txt');
+const testStepsFilePath = "E:\\Codes\\auto-test-mcp\\testSteps.txt";
 
 class TestStepsManager {
   constructor() {

@@ -8,7 +8,7 @@ class Logger {
   static log(message) {
     const timestamp = new Date().toLocaleTimeString();
     const logMessage = `[${timestamp}] ${message}\n`;
-    fs.appendFileSync(path.join(__dirname, '..', config.logging.logFile), logMessage);
+    fs.appendFileSync(config.logging.logFile, logMessage);
   }
 }
 
@@ -71,7 +71,7 @@ class ScriptTemplate {
       "      setTimeout(() => {",
       "        if (responsePromises.has(id)) {",
       "          responsePromises.delete(id);",
-          "          reject(new Error('MCP Request Timeout'));",
+      "          reject(new Error('MCP Request Timeout'));",
       "        }",
       "      }, 30000);",
       "    });",
@@ -125,7 +125,7 @@ class ActionHandler {
     if (action.name && action.arguments !== undefined) {
       return this.handleMCPFormat(scriptLines, action);
     }
-    
+
     // 否则是处理后的格式 (type/selector/value)
     const actionType = action.type;
     const selector = action.selector || '';
@@ -195,7 +195,7 @@ class ActionHandler {
 // 脚本生成器主类
 class ScriptGenerator {
   // 生成 Node.js 测试脚本文件（保留原函数名但生成Node.js脚本）
-  static generatePythonScript(url, actions, filename) {
+  static generateNodeScript(url, actions, filename) {
     // 从配置文件获取浏览器类型
     const browser = config.service.browser;
 
@@ -220,9 +220,9 @@ class ScriptGenerator {
       // 确保输出目录存在
       const outputDir = path.dirname(filename);
       if (!fs.existsSync(outputDir)) {
-        fs.mkdirSync(outputDir, { recursive: true });
+        fs.mkdirSync(outputDir, {recursive: true});
       }
-      
+
       fs.writeFileSync(filename, scriptLines.join('\n'), 'utf8');
     } catch (error) {
       Logger.log('写入文件失败: ' + error.message);
@@ -240,14 +240,9 @@ class ScriptGenerator {
     };
   }
 
-  // 生成 Node.js 测试脚本文件（新函数名）
-  static generateNodeScript(url, actions, filename) {
-    return this.generatePythonScript(url, actions, filename);  // 复用相同逻辑
-  }
 }
 
 module.exports = {
   log: Logger.log,
-  generatePythonScript: ScriptGenerator.generatePythonScript, // 保留原函数名，但生成Node.js脚本
   generateNodeScript: ScriptGenerator.generateNodeScript
 };
