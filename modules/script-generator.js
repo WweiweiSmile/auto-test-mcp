@@ -1,7 +1,7 @@
 // script-generator.js - Node.js脚本生成相关工具函数模块，用于生成通过MCP协议调用Playwright服务的脚本
 const fs = require('fs');
 const path = require('path');
-const config = require('./../config/service-config');
+const config = require('./../auto_test.config.js');
 
 // 日志工具类
 class Logger {
@@ -36,7 +36,6 @@ class ScriptTemplate {
       "  // 监听 MCP 输出",
       "  mcpProcess.stdout.on('data', (data) => {",
       "    const output = data.toString().trim();",
-      "    console.log('on data  output----->', output)",
       "    if (output) {",
       "      try {",
       "        const response = JSON.parse(output);",
@@ -100,8 +99,8 @@ class ScriptTemplate {
     scriptLines.push("    process.exit(1); // 测试失败退出码");
     scriptLines.push("  } finally {");
     scriptLines.push("    // 关闭 MCP 进程");
-    scriptLines.push("    if (!mcpProcess.killed) {");
-    scriptLines.push("      mcpProcess.kill();");
+    scriptLines.push("    if (!mcpProcess.killed) {",
+    "      mcpProcess.kill();");
     scriptLines.push("    }");
     scriptLines.push("  }");
     scriptLines.push("}");

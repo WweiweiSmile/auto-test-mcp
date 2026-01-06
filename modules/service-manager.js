@@ -1,6 +1,7 @@
 // service-manager.js - Playwright MCP 服务管理器
 const { spawn } = require('child_process');
 const { log } = require('./script-generator');
+const config = require('./../auto_test.config.js');
 
 class PlaywrightServiceManager {
   constructor(config) {
@@ -286,4 +287,4 @@ class PlaywrightServiceManager {
   }
 }
 
-module.exports = { PlaywrightServiceManager, spawn }; // 保留原始的spawn导出以兼容旧代码
+module.exports = { PlaywrightServiceManager }; // 移除未使用的spawn导出

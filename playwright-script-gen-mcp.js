@@ -7,7 +7,7 @@ const readline = require('readline');
 const {log, generateNodeScript} = require('./modules/script-generator');
 const {PlaywrightServiceManager} = require('./modules/service-manager');
 const TestStepsManager = require('./modules/test-steps-manager');
-const config = require('./config/service-config');
+const config = require('./auto_test.config.js');
 
 // 初始化组件
 const serviceManager = new PlaywrightServiceManager(config);

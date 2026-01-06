@@ -2,9 +2,10 @@
 
 const fs = require('fs');
 const {log} = require('./script-generator');
+const config = require('./../auto_test.config.js');
 
 // 定义testSteps文件路径
-const testStepsFilePath = "E:\\Codes\\auto-test-mcp\\testSteps.txt";
+const testStepsFilePath = config.filePaths.testSteps;
 
 class TestStepsManager {
   constructor() {
