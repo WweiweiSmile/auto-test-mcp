@@ -50,34 +50,23 @@ Playwright MCP 的功能与 Python 脚本生成能力相结合，提供额外的
 ```javascript
 {
   name: config.tools.playwright_script_generator.name,
-    description
-:
-  config.tools.playwright_script_generator.description,
-    inputSchema
-:
-  {
+  description: config.tools.playwright_script_generator.description,
+  inputSchema: {
     type: "object",
-      properties
-  :
-    {
+    properties: {
       action: {
         type: "object",
-          properties
-      :
-        {
+        properties: {
           type: {
             type: "string"
-          }
-        ,      // 操作类型 (如: click, fill, navigate 等)
+          },      // 操作类型 (如: click, fill, navigate 等)
           selector: {
             type: "string"
-          }
-        ,  // 元素选择器
+          },  // 元素选择器
           value: {
             type: "string"
           }      // 操作值 (如: fill 操作的输入值)
-        }
-      ,
+        },
         required: ["type"]
       }
     }
@@ -116,17 +105,17 @@ Playwright MCP 的功能与 Python 脚本生成能力相结合，提供额外的
 6. 对于 `tools/list` 方法，合并自定义工具
 7. 对于 `playwright_script_generator` 方法，执行脚本生成逻辑
 8. 对于其他浏览器操作方法（`browser/`, `page/`, `element/`
-   开头），记录操作到 [testSteps](file:///E:/Codes/agent/playwright-script-gen-mcp.js#L18-L18) 数组并保存到 `.testSteps` 文件
+   开头），记录操作到 [testSteps](file:///E:/Codes/agent/modules/test-steps-manager.js#L11-L11) 数组并保存到 `.testSteps` 文件
 9. 将响应返回给客户端
 
 ### Node.js 脚本生成流程
 
-1. 服务初始化时创建全局变量 [testSteps](file:///E:/Codes/agent/playwright-script-gen-mcp.js#L18-L18) 数组，用于存储测试步骤
+1. 服务初始化时创建 [TestStepsManager](file:///E:/Codes/agent/modules/test-steps-manager.js#L7-L79) 实例，用于管理测试步骤
 2. 当接收到 MCP 方法请求时（如 `browser/navigate`, `page/click`, `page/fill`
-   等），通过 [extractActionFromMethod](file:///E:/Codes/agent/playwright-script-gen-mcp.js#L30-L77)
-   函数提取操作信息并添加到 [testSteps](file:///E:/Codes/agent/playwright-script-gen-mcp.js#L18-L18) 数组
+   等），通过 [extractActionFromMethod](file:///E:/Codes/agent/playwright-script-gen-mcp.js#L21-L66)
+   函数提取操作信息并添加到 [testSteps](file:///E:/Codes/agent/modules/test-steps-manager.js#L11-L11) 数组
 3. 当接收到 `playwright_script_generator`
-   工具请求时，使用 [generatePythonScript](file:///E:/Codes/agent/modules/script-generator.js#L94-L125) 函数生成包含所有记录步骤的
+   工具请求时，使用 [generatePythonScript](file:///E:/Codes/agent/modules/script-generator.js#L146-L184) 函数生成包含所有记录步骤的
    Node.js 脚本，该脚本通过 MCP 协议调用 Playwright 服务
 4. 生成包含所有记录步骤的 Node.js 脚本文件
 5. 脚本文件保存到配置的输出目录中
@@ -152,7 +141,7 @@ Playwright MCP 的功能与 Python 脚本生成能力相结合，提供额外的
   处理脚本生成请求，验证操作参数，从 `.testSteps` 文件加载操作记录，生成
   Node.js 脚本并返回结果，生成后清除 `.testSteps` 文件中的历史记录
 - **其他方法**: 直接返回 Playwright MCP 的原始响应，但会检查是否是浏览器操作（如 `browser/`, `page/`, `element/`
-  开头的方法）并记录到 [testSteps](file:///E:/Codes/agent/playwright-script-gen-mcp.js#L18-L18) 数组并保存到 `.testSteps` 文件
+  开头的方法）并记录到 [testSteps](file:///E:/Codes/agent/modules/test-steps-manager.js#L11-L11) 数组并保存到 `.testSteps` 文件
 
 ## 错误处理
 
@@ -186,4 +175,5 @@ Playwright MCP 的功能与 Python 脚本生成能力相结合，提供额外的
 - Playwright MCP (`@playwright/mcp` 包，全局安装)
 - [modules/script-generator.js](file:///E:/Codes/agent/modules/script-generator.js) - 提供脚本生成和日志功能
 - [modules/service-manager.js](file:///E:/Codes/agent/modules/service-manager.js) - 提供服务管理功能，包括跨平台的 npx 调用
+- [modules/test-steps-manager.js](file:///E:/Codes/agent/modules/test-steps-manager.js) - 提供测试步骤管理功能
 - [config/service-config.js](file:///E:/Codes/agent/config/service-config.js) - 服务配置

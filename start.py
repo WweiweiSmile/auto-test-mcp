@@ -174,9 +174,8 @@ class MyImageGen(BaseTool):
             ensure_ascii=False)
 
 
-# 步骤 2：配置您所使用的 LLM。
-llm_cfg = {
-    # 使用与 OpenAI API 兼容的模型服务，例如 vLLM 或 Ollama：
+# 配置常量
+LLM_CONFIG = {
     'model': 'qwen3:8b',
     'model_server': ' http://localhost:11434/v1',
     'api_key': 'EMPTY',
@@ -189,15 +188,12 @@ llm_cfg = {
 - 当所有步骤测试完成以后 使用 playwright-script-gen MCP  playwright_script_generator 方法，生成自动化的测试脚本
 - 你总是用中文回复用户。
 ''',
-
-    # （可选） LLM 的超参数：
     'generate_cfg': {
         'top_p': 0.8
     }
 }
 
-# 步骤 3：创建一个智能体。这里我们以 `Assistant` 智能体为例，它能够使用工具并读取文件。
-system_instruction = '''
+SYSTEM_INSTRUCTION = '''
 你是一个web自动化测试助手：
 - 使用 playwright-script-gen MCP 服务来执行浏览器自动化操作
 - 将任务操作拆分为多个步骤，保存在当下目录的 steps.md文档。
@@ -207,13 +203,8 @@ system_instruction = '''
 - 你总是用中文回复用户。
 '''
 
-mcpServersConfig = {
+MCP_SERVERS_CONFIG = {
     "mcpServers": {
-        # "playwright": {
-        #     "command": "npx",
-        #     "args": ["@playwright/mcp@latest", "--browser",
-        #              "msedge"]
-        # },
         "playwright-script-gen": {
             "timeout": 30,
             "type": "stdio",
@@ -221,31 +212,29 @@ mcpServersConfig = {
             "args": ["playwright-script-gen-mcp.js"],
             "env": {}
         },
-        # "memos-api-mcp": {
-        #     "timeout": 60,
-        #     "type": "stdio",
-        #     "command": "npx",
-        #     "args": [
-        #         "-y",
-        #         "@memtensor/memos-api-mcp@latest"
-        #     ],
-        #     "env": {
-        #         "MEMOS_API_KEY": "mpg-KF2FBgtBMivD5Qm/FHzSbY0dwAHCfQbB1xfwC6ed",
-        #         "MEMOS_USER_ID": "1119062049@qq.com",
-        #         "MEMOS_CHANNEL": "MODELSCOPE",
-        #     }
-        # }
-
     }
 }
 
-tools = [mcpServersConfig, 'code_interpreter']  # 添加自定义的 Playwright 测试工具
-files = []  # 给智能体一个 PDF 文件阅读。
-bot = Assistant(llm=llm_cfg,
-                system_message=system_instruction,
-                function_list=tools,
-                files=files)
 
-# 步骤 4：作为聊天机器人运行智能体。
+# 初始化智能体
+def initialize_agent():
+    """初始化智能体"""
+    tools = [MCP_SERVERS_CONFIG, 'code_interpreter']
+    files = []
 
-WebUI(bot).run()  # bot is the agent defined in the above code, we do not repeat the definition here for saving space.
+    return Assistant(
+        llm=LLM_CONFIG,
+        system_message=SYSTEM_INSTRUCTION,
+        function_list=tools,
+        files=files
+    )
+
+
+# 启动 WebUI
+def main():
+    bot = initialize_agent()
+    WebUI(bot).run()
+
+
+if __name__ == '__main__':
+    main()

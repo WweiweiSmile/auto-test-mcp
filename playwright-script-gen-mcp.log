@@ -1,0 +1,95 @@
+[22:41:24] 读取 testSteps 文件失败: Cannot access 'testSteps' before initialization
+[22:41:24] 正在初始化 Playwright Script Generation MCP 服务...
+[22:41:24] 尝试连接到 Playwright MCP 服务...
+[22:41:25] 发送健康检查探针请求: {"method":"ping","id":"health_check_1767710485218","jsonrpc":"2.0"}
+[22:41:54] Playwright MCP 服务初始化失败: 连接到 Playwright MCP 服务超时
+[22:41:54] 继续运行服务，等待 Playwright MCP 服务稍后启动
+[22:42:31] Playwright MCP 输出: {"result":{},"jsonrpc":"2.0","id":"health_check_1767710485218"}
+
+[22:42:31] Playwright MCP Response 输出: {"result":{},"jsonrpc":"2.0","id":"health_check_1767710485218"}    hase id:health_check_1767710485218
+[22:42:31] Playwright MCP Response  health_check_ 检查: 
+[22:42:31] Playwright MCP 服务通过健康检查已就绪
+[22:42:31] 处理 0 个等待的请求
+[22:42:36] 发送健康检查探针请求: {"method":"ping","id":"health_check_1767710556882","jsonrpc":"2.0"}
+[22:42:36] Playwright MCP 输出: {"result":{},"jsonrpc":"2.0","id":"health_check_1767710556882"}
+
+[22:42:36] Playwright MCP Response 输出: {"result":{},"jsonrpc":"2.0","id":"health_check_1767710556882"}    hase id:health_check_1767710556882
+[22:42:36] Playwright MCP Response  health_check_ 检查: 
+[22:42:41] 发送健康检查探针请求: {"method":"ping","id":"health_check_1767710561890","jsonrpc":"2.0"}
+[22:42:41] Playwright MCP 输出: {"result":{},"jsonrpc":"2.0","id":"health_check_1767710561890"}
+
+[22:42:41] Playwright MCP Response 输出: {"result":{},"jsonrpc":"2.0","id":"health_check_1767710561890"}    hase id:health_check_1767710561890
+[22:42:41] Playwright MCP Response  health_check_ 检查: 
+[22:42:46] 发送健康检查探针请求: {"method":"ping","id":"health_check_1767710566903","jsonrpc":"2.0"}
+[22:42:46] Playwright MCP 输出: {"result":{},"jsonrpc":"2.0","id":"health_check_1767710566903"}
+
+[22:42:46] Playwright MCP Response 输出: {"result":{},"jsonrpc":"2.0","id":"health_check_1767710566903"}    hase id:health_check_1767710566903
+[22:42:46] Playwright MCP Response  health_check_ 检查: 
+[22:42:51] 发送健康检查探针请求: {"method":"ping","id":"health_check_1767710571902","jsonrpc":"2.0"}
+[22:42:51] Playwright MCP 输出: {"result":{},"jsonrpc":"2.0","id":"health_check_1767710571902"}
+
+[22:42:51] Playwright MCP Response 输出: {"result":{},"jsonrpc":"2.0","id":"health_check_1767710571902"}    hase id:health_check_1767710571902
+[22:42:51] Playwright MCP Response  health_check_ 检查: 
+[22:42:56] 发送健康检查探针请求: {"method":"ping","id":"health_check_1767710576917","jsonrpc":"2.0"}
+[22:42:56] Playwright MCP 输出: {"result":{},"jsonrpc":"2.0","id":"health_check_1767710576917"}
+
+[22:42:56] Playwright MCP Response 输出: {"result":{},"jsonrpc":"2.0","id":"health_check_1767710576917"}    hase id:health_check_1767710576917
+[22:42:56] Playwright MCP Response  health_check_ 检查: 
+[22:43:01] 发送健康检查探针请求: {"method":"ping","id":"health_check_1767710581926","jsonrpc":"2.0"}
+[22:43:01] Playwright MCP 输出: {"result":{},"jsonrpc":"2.0","id":"health_check_1767710581926"}
+
+[22:43:01] Playwright MCP Response 输出: {"result":{},"jsonrpc":"2.0","id":"health_check_1767710581926"}    hase id:health_check_1767710581926
+[22:43:01] Playwright MCP Response  health_check_ 检查: 
+[22:43:06] 发送健康检查探针请求: {"method":"ping","id":"health_check_1767710586941","jsonrpc":"2.0"}
+[22:43:06] Playwright MCP 输出: {"result":{},"jsonrpc":"2.0","id":"health_check_1767710586941"}
+
+[22:43:06] Playwright MCP Response 输出: {"result":{},"jsonrpc":"2.0","id":"health_check_1767710586941"}    hase id:health_check_1767710586941
+[22:43:06] Playwright MCP Response  health_check_ 检查: 
+[22:43:11] 发送健康检查探针请求: {"method":"ping","id":"health_check_1767710591954","jsonrpc":"2.0"}
+[22:43:11] Playwright MCP 输出: {"result":{},"jsonrpc":"2.0","id":"health_check_1767710591954"}
+
+[22:43:11] Playwright MCP Response 输出: {"result":{},"jsonrpc":"2.0","id":"health_check_1767710591954"}    hase id:health_check_1767710591954
+[22:43:11] Playwright MCP Response  health_check_ 检查: 
+[22:43:16] 发送健康检查探针请求: {"method":"ping","id":"health_check_1767710596960","jsonrpc":"2.0"}
+[22:43:16] Playwright MCP 输出: {"result":{},"jsonrpc":"2.0","id":"health_check_1767710596960"}
+
+[22:43:16] Playwright MCP Response 输出: {"result":{},"jsonrpc":"2.0","id":"health_check_1767710596960"}    hase id:health_check_1767710596960
+[22:43:16] Playwright MCP Response  health_check_ 检查: 
+[22:43:21] 发送健康检查探针请求: {"method":"ping","id":"health_check_1767710601966","jsonrpc":"2.0"}
+[22:43:21] Playwright MCP 输出: {"result":{},"jsonrpc":"2.0","id":"health_check_1767710601966"}
+
+[22:43:21] Playwright MCP Response 输出: {"result":{},"jsonrpc":"2.0","id":"health_check_1767710601966"}    hase id:health_check_1767710601966
+[22:43:21] Playwright MCP Response  health_check_ 检查: 
+[22:43:26] 发送健康检查探针请求: {"method":"ping","id":"health_check_1767710606972","jsonrpc":"2.0"}
+[22:43:26] Playwright MCP 输出: {"result":{},"jsonrpc":"2.0","id":"health_check_1767710606972"}
+
+[22:43:26] Playwright MCP Response 输出: {"result":{},"jsonrpc":"2.0","id":"health_check_1767710606972"}    hase id:health_check_1767710606972
+[22:43:26] Playwright MCP Response  health_check_ 检查: 
+[22:43:31] 发送健康检查探针请求: {"method":"ping","id":"health_check_1767710611975","jsonrpc":"2.0"}
+[22:43:31] Playwright MCP 输出: {"result":{},"jsonrpc":"2.0","id":"health_check_1767710611975"}
+
+[22:43:31] Playwright MCP Response 输出: {"result":{},"jsonrpc":"2.0","id":"health_check_1767710611975"}    hase id:health_check_1767710611975
+[22:43:31] Playwright MCP Response  health_check_ 检查: 
+[22:43:36] 发送健康检查探针请求: {"method":"ping","id":"health_check_1767710616981","jsonrpc":"2.0"}
+[22:43:36] Playwright MCP 输出: {"result":{},"jsonrpc":"2.0","id":"health_check_1767710616981"}
+
+[22:43:36] Playwright MCP Response 输出: {"result":{},"jsonrpc":"2.0","id":"health_check_1767710616981"}    hase id:health_check_1767710616981
+[22:43:36] Playwright MCP Response  health_check_ 检查: 
+[22:43:41] 发送健康检查探针请求: {"method":"ping","id":"health_check_1767710621991","jsonrpc":"2.0"}
+[22:43:41] Playwright MCP 输出: {"result":{},"jsonrpc":"2.0","id":"health_check_1767710621991"}
+
+[22:43:41] Playwright MCP Response 输出: {"result":{},"jsonrpc":"2.0","id":"health_check_1767710621991"}    hase id:health_check_1767710621991
+[22:43:41] Playwright MCP Response  health_check_ 检查: 
+[22:43:46] 发送健康检查探针请求: {"method":"ping","id":"health_check_1767710626999","jsonrpc":"2.0"}
+[22:43:47] Playwright MCP 输出: {"result":{},"jsonrpc":"2.0","id":"health_check_1767710626999"}
+
+[22:43:47] Playwright MCP Response 输出: {"result":{},"jsonrpc":"2.0","id":"health_check_1767710626999"}    hase id:health_check_1767710626999
+[22:43:47] Playwright MCP Response  health_check_ 检查: 
+[22:43:51] 发送健康检查探针请求: {"method":"ping","id":"health_check_1767710631999","jsonrpc":"2.0"}
+[22:43:52] Playwright MCP 输出: {"result":{},"jsonrpc":"2.0","id":"health_check_1767710631999"}
+
+[22:43:52] Playwright MCP Response 输出: {"result":{},"jsonrpc":"2.0","id":"health_check_1767710631999"}    hase id:health_check_1767710631999
+[22:43:52] Playwright MCP Response  health_check_ 检查: 
+[22:43:53] Playwright MCP 错误: ^C
+[22:43:53] Playwright MCP 错误: ^C
+[22:53:41] 从 E:\Codes\auto-test-mcp\testSteps.txt 加载了 3 个历史操作记录
